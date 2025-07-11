@@ -172,3 +172,19 @@ The configuration parameters in this section control the resources requested and
 | --------- | ----------- | ------- |
 | `nodeSelector` | Dictionary containing key-value-pairs to match labels on nodes. When defined pods will only be scheduled on nodes, that have each of the indicated key-value pairs as labels. Further information can be found in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) | `{}`
 | `tolerations`| Array containing taint references. When defined, pods can run on nodes, which would otherwise deny scheduling. Further information can be found in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) | `{}`
+
+
+
+
+
+
+
+
+My authentication Setup:
+
+I have implemented JAAS for basic & ldap authentication
+
+1. You are required to have a JAAS config file in your repo
+2. You are to create a secret in kubernetes for the jaas config file to mount in the server. If you are using basic authentication, you will require a password file too.
+3. In the current version of setup, passwords only work as cleartext. If you hash the password, authentication will fail
+4. For LDAP, you should already have a open-ldap setup running in kubernetes

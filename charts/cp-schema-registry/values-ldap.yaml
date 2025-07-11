@@ -48,8 +48,8 @@ authentication:
   secretRef: basicwithrolesr
   basicRole: admin
   type: BASIC
-  jaasProp: SchemaRegistry-Props
-  role: "admin,user"
+  jaasProp: SchemaRegistry-Ldap
+  role: ldapuserlist
   registryOps: "-Djava.security.auth.login.config=/etc/kafka/secrets/jaas_config.conf"
 
 resources: {}
@@ -107,4 +107,4 @@ prometheus:
 
     resources: {}
 
-secretJaas: schema-registry-auth-secrets
+secretJaas: schema-registry-auth-secrets-ldap

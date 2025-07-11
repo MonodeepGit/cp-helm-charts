@@ -27,7 +27,14 @@ imagePullSecrets:
 ## Configuration Options can be found here: https://docs.confluent.io/current/schema-registry/docs/config.html
 configurationOverrides:
   kafkastore.topic: "custom-schema-topic"
-  kafkastore.bootstrap.servers: "PLAINTEXT://kafka-local-kafka-bootstrap.default.svc:9092"
+  kafkastore.bootstrap.servers: "SASL_SSL://my-cluster-kafka-bootstrap:9095"
+  kafkastore.security.protocol: "SASL_SSL"  # Use "SASL_PLAINTEXT" if SSL is not enabled
+  kafkastore.sasl.mechanism: "SCRAM-SHA-512"  # Use "PLAIN", "GSSAPI", etc., if needed
+  kafkastore.sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="sasl-user" password="C4RhvJwGnn3lHkeWEcPGj6ubL4kIgPhZ";
+  kafkastore.ssl.keystore.location: /etc/ssl/keystore.p12
+  kafkastore.ssl.keystore.password: "monodeep"
+  kafkastore.ssl.truststore.location: /etc/ssl/keystore.p12
+  kafkastore.ssl.truststore.password: "monodeep"
 
 ## Additional env variables
 customEnv: {}
@@ -42,15 +49,7 @@ heapOptions: "-Xms512M -Xmx512M"
 ## bootstrapServers: "PLAINTEXT://dozing-prawn-kafka-headless:9092"
 ## Charts uses Kafka Coordinator Master Election: https://docs.confluent.io/current/schema-registry/docs/design.html#kafka-coordinator-master-election
 kafka:
-  bootstrapServers: "PLAINTEXT://kafka-local-kafka-bootstrap.default.svc:9092"
-
-authentication:
-  secretRef: basicwithrolesr
-  basicRole: admin
-  type: BASIC
-  jaasProp: SchemaRegistry-Props
-  role: "admin,user"
-  registryOps: "-Djava.security.auth.login.config=/etc/kafka/secrets/jaas_config.conf"
+  bootstrapServers: "SASL_SSL://my-cluster-kafka-bootstrap:9095"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -106,5 +105,3 @@ prometheus:
     port: 5556
 
     resources: {}
-
-secretJaas: schema-registry-auth-secrets
